@@ -11,12 +11,10 @@ def main(argv):
 	
 	path = argv[1]
 
-	print containsNResponse("CI type: 8")
-	print containsNResponse("Sex: N")
+	filelist = getFileNames(path)
 
-	#print "Hola. El path es: " + path
-	#for f in getFileNames(path) :
-	#	print "File: " + f
+	for filename in filelist:
+		fixDataFile(path, filename)
 
 #This function returns the content of a directory in a list
 def getFileNames(path):
@@ -31,6 +29,16 @@ def containsNResponse(line):
 	return line.find(": N") > 0
 #---------------------------
 
+'''
 
+Path must end in /
+'''
+def fixDataFile(path, filename):
+	filehandle = open(path + filename, 'r')
+	for line in filehandle:
+		if containsNResponse(line):
+			correct_line = line.replace(": N", ": M")
+			print "Negative response found in file: " + path + filename + " -- response: " + line + " -- corrected: " + correct_line
+	filehandle.close()
 
 main(sys.argv)
