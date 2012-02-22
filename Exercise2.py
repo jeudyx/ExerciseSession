@@ -31,7 +31,7 @@ class RecommendationsHolder(object):
 		while(i < len(self.Persons)):
 			j = 0			
 			while(j < len(self.Papers)):
-				
+				#if the person hasn't read the paper, we assign a 0 as rate
 				if inputdatadicc[self.Persons[i]].has_key(list(self.Papers)[j]):
 					 self.Ratings[i,j] = inputdatadicc[self.Persons[i]][list(self.Papers)[j]]
 				else:
@@ -39,12 +39,49 @@ class RecommendationsHolder(object):
 				j = j + 1
 			
 			i = i + 1
+	
+	def Rates2Norm(self, person1, person2):
+		rate1 = self.Ratings[person1]
+		rate2 = self.Ratings[person2]
+		
+		comp = []
+
+		i = 0
+
+		while(i < len(rate1)):
+			if rate1[i] > 0 and rate2[i]:
+				comp.append(True)
+			else:
+				comp.append(False)
+		
+			i = i + 1
+
+		#print comp
+		
+		clean_rate1 = []
+		clean_rate2 = []
+
+		i = 0
+		for val in comp:
+			if val:
+				clean_rate1.append(rate1[i])
+				clean_rate2.append(rate2[i])
+			i = i + 1
+
+		print [clean_rate1,clean_rate2]
+		return numpy.linalg.norm([clean_rate1,clean_rate2])
+#		print rate2
 #--------------------
 def main(data):
 	holder = RecommendationsHolder(data)
 	#holder.PrintPapers()
 	#print '-----------------'
-	#print holder.Persons[2]	
+	#print holder.Persons[2]
+	print holder.Persons
+	print '-----------------'
+	print holder.Papers
+	print '-----------------'	
 	print holder.Ratings
-
+	print '-----------------'	
+	print 'Norma: ' + str(holder.Rates2Norm(0,1))
 main(inputdata.raw_scores)
