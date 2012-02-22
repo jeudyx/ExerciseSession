@@ -1,5 +1,11 @@
 '''
-Exercises for session 1.
-Jeudy Blanco - 02/21/2012
+Exercises for session 2.
+Jeudy Blanco - 02/22/2012
 '''
+
+import sys
+import os
+import numpy
+
+
 
