@@ -93,13 +93,24 @@ def main(data):
 	#holder.PrintPapers()
 	#print '-----------------'
 	#print holder.Persons[2]
+	print 'Persons: ' 
 	print holder.Persons
 	print '-----------------'
+	print 'Papers: '	
 	print holder.Papers
 	print '-----------------'	
+	print 'Ratings:'
 	print holder.Ratings
 	print '-----------------'	
-	print 'Norma: ' + str(holder.Rates2Norm(0,1))
+	i = 0
+	j = 0
+	while i < len(holder.Persons):
+		j = 0
+		while j < len(holder.Persons):
+			if(i!=j):
+				print '2-Norm between: ' + holder.Persons[i] + ' and ' + holder.Persons[j] + ' = ' + str(holder.Rates2Norm(i,j))
+			j = j + 1
+		i = i + 1
 	#print 'Pearson: ' + str(holder.RatesPearson(0,1))
 	
 main(inputdata.raw_scores)
