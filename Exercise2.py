@@ -7,6 +7,8 @@ import sys
 import os
 import numpy
 import inputdata
+import scipy
+from scipy import stats
 
 #Part 1: Create a NumPy array with the recommendations
 class RecommendationsHolder(object):
@@ -40,7 +42,7 @@ class RecommendationsHolder(object):
 			
 			i = i + 1
 	
-	def Rates2Norm(self, person1, person2):
+	def _getnonzeroelements(self, person1, person2):
 		rate1 = self.Ratings[person1]
 		rate2 = self.Ratings[person2]
 		
@@ -68,8 +70,22 @@ class RecommendationsHolder(object):
 				clean_rate2.append(rate2[i])
 			i = i + 1
 
-		print [clean_rate1,clean_rate2]
-		return numpy.linalg.norm([clean_rate1,clean_rate2])
+		if len(clean_rate1) == 0 and len(clean_rate2) == 0:
+			return None
+		else:
+			return [clean_rate1,clean_rate2]
+		
+	def Rates2Norm(self, person1, person2):
+		clean_rates = self._getnonzeroelements(person1, person2)		
+		if clean_rates == None:
+			return 0.
+		else:
+			return numpy.linalg.norm(clean_rates)
+
+	def RatesPearson(self, person1, person2):
+		clean_rates = self._getnonzeroelements(person1, person2)
+		return scipy.stats.pearsonr(clean_rates[0], clean_rates[1])
+
 #		print rate2
 #--------------------
 def main(data):
@@ -84,4 +100,6 @@ def main(data):
 	print holder.Ratings
 	print '-----------------'	
 	print 'Norma: ' + str(holder.Rates2Norm(0,1))
+	#print 'Pearson: ' + str(holder.RatesPearson(0,1))
+	
 main(inputdata.raw_scores)
