@@ -31,7 +31,7 @@ def containsNResponse(line):
 #---------------------------
 
 '''
-
+Fix a file that contains a negative response, replacing it with an M
 Path must end in /
 '''
 def fixDataFile(path, filename):
